@@ -1,11 +1,47 @@
+let time = 0,
+  timer;
 const start = function start() {
-  type();
+  type(); 
+  let btn = document.getElementById("btn");
+  btn.innerHTML='❚ ❚';
+  btn.setAttribute('isPlay',true);
+  timer = setInterval(getForward, 1000);
+};
+const updateBtn = function updateBtn() {
+  console.log('调用update')
+  let btn = document.getElementById("btn");
+  flag=btn.getAttribute('isPlay'),
+  icon='';
+  if(flag==='true'){
+    flag='false';
+    icon='►';
+  }else{
+    flag='true';
+    icon='❚ ❚' ;
+  }
+  flag=btn.setAttribute('isPlay',flag)
+  btn.innerHTML=icon;
+};
+const pause = function pause() {
+  clearInterval(timer);
+};
+const getForward = function getForward() {
+  time++;
 };
 const loadData = function loadData() {
   let data = {
     lines: [
       {
-        words: ["Let ", "me ", "introduce ", "myself ", "first. ", "My ", "name ", "is ",],
+        words: [
+          "Let ",
+          "me ",
+          "introduce ",
+          "myself ",
+          "first. ",
+          "My ",
+          "name ",
+          "is ",
+        ],
       },
       {
         words: [
@@ -13,7 +49,8 @@ const loadData = function loadData() {
           "Yuyang. ",
           "I ",
           "like ",
-          "front-end ", "programming. ",
+          "front-end ",
+          "programming. ",
         ],
       },
       {
@@ -28,9 +65,7 @@ const render = (index) => {
   //将每一行的盒子建出来
   let container = document.getElementById("container"),
     lineString = `<span  id='line-${index}'></span>`,
-    wordString = "";
-
-  newLine = document.createElement("div");
+    newLine = document.createElement("div");
   newLine.setAttribute("class", "line-box");
   newLine.setAttribute("id", `line-box-${index}`);
   newLine.innerHTML = lineString;
@@ -41,7 +76,7 @@ const render = (index) => {
     wordNum++;
     newWord = document.createElement("span");
     newWord.setAttribute("class", "word");
-    newWord.setAttribute("id", `word-${wordNum}`)
+    newWord.setAttribute("id", `word-${wordNum}`);
     let currentLine = document.getElementById(`line-${index}`);
     currentLine.appendChild(newWord);
 
@@ -61,41 +96,27 @@ const load = (num) => {
     render(i);
   }
 };
-let num = loadData()["lines"].length, wordNum = 0, letterNum = 0;
+let num = loadData()["lines"].length,
+  wordNum = 0,
+  letterNum = 0;
 load(num);
 const type = function type() {
-  console.log('调用type');
   let index = 0;
-   window.onkeydown = (e, i) => {
+  window.onkeydown = (e, i) => {
     i = index;
     index++;
-    checkKey(e, i)
-    console.log('传过去的i:' + i)
-    return i;
-  }
+    checkKey(e, i);
+  };
+};
 
-};
-const getString = function getString() {
-  let wholeString = "",
-    data = loadData()["lines"];
-  for (let i = 0; i < num; i++) {
-    data[i]["words"].forEach((word) => {
-      wholeString += word;
-    });
-  }
-  return wholeString.toLowerCase();
-};
-const checkKey = function checkKey(e,i) {
- 
-  console.log(e);
+const checkKey = function checkKey(e, i) {
   letters = document.getElementsByClassName("letter");
-  console.log('传过来的i:' + i);
-  if(i>=letterNum) return;
-  console.log(letters[i].innerHTML.toLowerCase())
-  if(letters[i].innerHTML.toLowerCase()==e.key){
-    letters[i].classList.add('on');
-  }else{
-    letters[i].classList.add('off');
-  }
 
-}
+  if (i >= letterNum) return;
+  console.log(letters[i].innerHTML.toLowerCase());
+  if (letters[i].innerHTML.toLowerCase() == e.key) {
+    letters[i].classList.add("on");
+  } else {
+    letters[i].classList.add("off");
+  }
+};
