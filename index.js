@@ -1,33 +1,19 @@
 let time = 0,
+  keysIn = 0,
+  keysRight = 0,
+  index = 0,
   timer;
-const start = function start() {
-  type(); 
-  let btn = document.getElementById("btn");
-  btn.innerHTML='❚ ❚';
-  btn.setAttribute('isPlay',true);
+const start = function start(e) {
+  type();
+  //使start提示消失,初始化开始和暂停按钮
+  e.style.display = "none";
+  let btn = document.getElementById("update");
+  btn.style.display='inline-block';
+  btn.innerHTML = "❚ ❚";
+  btn.setAttribute("isPlay", true);
   timer = setInterval(getForward, 1000);
 };
-const updateBtn = function updateBtn() {
-  console.log('调用update')
-  let btn = document.getElementById("btn");
-  flag=btn.getAttribute('isPlay'),
-  icon='';
-  if(flag==='true'){
-    flag='false';
-    icon='►';
-  }else{
-    flag='true';
-    icon='❚ ❚' ;
-  }
-  flag=btn.setAttribute('isPlay',flag)
-  btn.innerHTML=icon;
-};
-const pause = function pause() {
-  clearInterval(timer);
-};
-const getForward = function getForward() {
-  time++;
-};
+
 const loadData = function loadData() {
   let data = {
     lines: [
@@ -50,7 +36,7 @@ const loadData = function loadData() {
           "I ",
           "like ",
           "front-end ",
-          "programming. ",
+          "programming,",
         ],
       },
       {
@@ -59,6 +45,36 @@ const loadData = function loadData() {
     ],
   };
   return data;
+};
+const updateBtn = function updateBtn() {
+  let btn = document.getElementById("update");
+  (flag = btn.getAttribute("isPlay")), (icon = "");
+  if (flag === "true") {
+    flag = "false";
+    icon = "►";
+    clearInterval(timer);
+  } else {
+    flag = "true";
+    icon = "❚ ❚";
+    timer = setInterval(getForward, 1000);
+  }
+  flag = btn.setAttribute("isPlay", flag);
+  btn.innerHTML = icon;
+};
+
+const getForward = function getForward() {
+  time++;
+};
+//渲染
+const load = (num) => {
+  for (let i = 0; i < num; i++) {
+    render(i);
+  }
+  let process = document.createElement("div"),
+    container = document.getElementById("container");
+  process.setAttribute("class", "process");
+  process.innerHTML = '<div class="process-filled"><div>';
+  container.appendChild(process);
 };
 const render = (index) => {
   let line = loadData()["lines"][index];
@@ -85,38 +101,85 @@ const render = (index) => {
     for (let j = 0; j < line["words"][i].length; j++) {
       letterNum++;
       let letter = line["words"][i][j];
-      letterString += `<span class='letter'>${letter}</span>`;
+      letterString += `<span class='letter' id='letter-${letterNum}'>${letter}</span>`;
     }
     document.getElementById(`word-${wordNum}`).innerHTML = letterString;
-  }
-};
-
-const load = (num) => {
-  for (let i = 0; i < num; i++) {
-    render(i);
   }
 };
 let num = loadData()["lines"].length,
   wordNum = 0,
   letterNum = 0;
 load(num);
+//检查键值
 const type = function type() {
-  let index = 0;
   window.onkeydown = (e, i) => {
+    let btn = document.getElementById("update");
+    flag = btn.getAttribute("isPlay");
+    if (flag == "false") {
+      updateBtn();
+    }
     i = index;
     index++;
+    setProgress(index);
     checkKey(e, i);
+    updateAccuracy(index);
   };
 };
+const setProgress=function(index){
+  console.log(index);
+  let rate=Math.ceil(index/letterNum*100),
+  processBar=document.getElementsByClassName('process-filled')[0];
+  processBar.style.flexBasis=`${rate}%`;
 
+}
 const checkKey = function checkKey(e, i) {
   letters = document.getElementsByClassName("letter");
 
   if (i >= letterNum) return;
-  console.log(letters[i].innerHTML.toLowerCase());
+  keysIn++;
+
+  updateTimer = setInterval(updateSpeed, 100);
   if (letters[i].innerHTML.toLowerCase() == e.key) {
     letters[i].classList.add("on");
+    keysRight++;
   } else {
     letters[i].classList.add("off");
+  }
+};
+const updateSpeed = function updateSpeed() {
+  let nowWord = isCompleted(keysIn)[1].substr(5), //完整输入单词的个数
+    speedBox = document.getElementById("speed"),
+    speed = Math.ceil((nowWord / time) * 60);
+  if (speed === Infinity) {
+    return;
+  }
+  if (nowWord > 1) {
+    speedBox.style.visibility = "visible";
+  }
+  let speedString = `<div class='title'>Speed</div><div class='data'>${speed}<span class='wpm'>WPM</span></div>`;
+  speedBox.innerHTML = speedString;
+};
+const isCompleted = function (i) {
+  let letter = document.getElementsByClassName("letter")[i - 1],
+    word = letter.parentNode,
+    letters = word.childNodes,
+    lettersArr = Array.from(letters),
+    wordId = word.getAttribute("id");
+
+  let flag = lettersArr.every((letter) => {
+    let flag =
+      letter.classList.contains("off") || letter.classList.contains("on");
+    return flag;
+  });
+
+  return [flag, wordId];
+};
+const updateAccuracy = function updateAccuracy() {
+  let accuracy = Math.round((keysRight / keysIn) * 100),
+    container = document.getElementById("accuracy");
+  accuracyString = `<div class='title'>Accuracy</div><div class='data'>${accuracy}%</div>`;
+  container.innerHTML = accuracyString;
+  if (keysIn > 5) {
+    container.style.visibility = "visible";
   }
 };

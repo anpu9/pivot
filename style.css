@@ -1,26 +1,103 @@
-body{
-    margin: 0;
-    padding: 0;
-    font-size: 35px;
-    color: dimgrey;
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 35px;
+  color: #757575;
 }
-.container{
-   width: 900px;
-   margin: 0 auto;
+header {
+  height: 50px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
 }
-.line-box{
-    margin-bottom: 30px;
+.container {
+  width: 850px;
+  margin: 50px auto;
+  position: relative;
 }
-.letter{
-    border: 1px solid snow;
+.line-box {
+  margin-bottom: 30px;
+}
+.letter {
+  border: 1px solid snow;
+  border-radius: 5px;
+}
+.on {
+  color: #0e630e;
+  background: #e7fbd3;
+}
+.off {
+  color: darkred;
+  background: pink;
+}
+.start {
+
+  margin-top: -5px;
+  padding: 10px;
+  font-size: 0.7em;
+  font-family: fantasy;
+  color: snow;
+  background-color: rgba(160, 191, 124);
+  border-radius: 5px;
+  box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.3), 0 0 15px #969b9599 inset;
+}
+.icon{
+    content: url(./img/watermelon.svg);
+    vertical-align: middle;
+}
+.process{
+    display: flex;
+    width:95%;
+    height: 10px;
     border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.2);
 }
-.on{
-   background-color: aquamarine;
+.process-filled{
+    border-radius: 5px;
+    flex-basis: 0;
+    background-color: rgba(89, 148, 76, 0.95);
+    transition: flex-basis 0.2s cubic-bezier(1, 0.68, 0, 1.54);
 }
-.off{
-    background-color: salmon;
- }
-.start{
-    cursor: pointer;
+.info{
+    position: absolute;
+    right: 50px;
+    bottom: -90px;
+    width:90px;
+    height:70px;
+    visibility: hidden;
+    transition: visibility 1s;
+ 
+}
+.info > div {
+  color: #888;
+}
+.title {
+  font-size: 0.5em;
+  font-weight: 300;
+}
+header > span {
+  margin-left: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+}
+#update {
+display: none;
+  margin-top: -8px;
+  width: 42px;
+  height: 40px;
+}
+.data {
+  font-family: "Droid Sans Mono", courier;
+}
+.wpm {
+  font-family: "Droid Sans Mono", courier;
+  font-size: 0.3em;
+  vertical-align: super;
+}
+.speed{
+    right: 150px;
+}
+.reload {
+  content: url(./img/reload.svg);
+  vertical-align: middle;
 }

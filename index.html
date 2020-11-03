@@ -7,10 +7,16 @@
   </head>
 
   <body>
-    <div class="container" id="container">
-      <span class="start" id="start" onclick="start()">Start Typing</span>
-      <span class="btn" id="btn" onclick="updateBtn()"></span>
-    </div>
+    <header>
+      <span class='icon'></span>
+      <span class="start" id="start" onclick="start(this)">Start Typing</span>
+      <span class="btn" id="update" onclick="updateBtn()"></span>
+      <span class="btn reload" id="reload" onclick="location.reload()"></span>
+    </header>
+    <section class="container" id="container">
+      <div class="info accuracy" id="accuracy"></div>
+      <div class="info speed" id="speed"></div>
+    </section>
     <script src="./index.js"></script>
   </body>
 </html>
