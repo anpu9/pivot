@@ -3,6 +3,7 @@ body {
   padding: 0;
   font-size: 35px;
   color: #757575;
+  overflow: hidden;
 }
 header {
   position: relative;
@@ -20,9 +21,10 @@ header {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 .container {
-  width: 850px;
-  margin: 50px auto;
   position: relative;
+  display: none;
+  margin: 50px auto;
+  width: 850px;
 }
 .line-box {
   margin-bottom: 30px;
@@ -132,4 +134,9 @@ header > span, i{
     font-size: 0.3em;
     color: seagreen;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.result-box{
+  display: block;
+  height: 93vh;
+  background-color: rgb(156, 165, 139);
 }
