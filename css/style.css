@@ -8,21 +8,22 @@ body {
 header {
   position: relative;
   height: 50px;
+  padding: 0 10px;
   border-bottom: 1px solid #ddd;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+align-items: center;
 }
 .tips {
-  position: absolute;
-  left: 0;
-  top: 12px;
-  font-size: 0.5em;
+ 
+  font-size: 0.4em;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: rgba(160, 191, 124);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 .container {
   position: relative;
-  display: none;
+  display: block;
   margin: 50px auto;
   width: 850px;
 }
@@ -85,7 +86,7 @@ header {
   font-weight: 300;
 }
 header > span, i{
-  margin-left: 30px;
+
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
@@ -135,8 +136,6 @@ header > span, i{
     color: seagreen;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
-.result-box{
-  display: block;
-  height: 93vh;
-  background-color: rgb(156, 165, 139);
+.progress{
+ visibility: hidden;
 }

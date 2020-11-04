@@ -125,11 +125,12 @@ const type = function type() {
     }
     i = index;
     index++;
-    debugTime+=i;//因为后面的单个单词的计时器会重复调用，用以抵消其影响
+    debugTime+=1;//因为后面的单个单词的计时器会重复调用，用以抵消其影响
     setProgress(index);
     checkKey(e, i);
     loadCheer(index);
     updateAccuracy(index);
+    updateSpeed()
   };
 };
 const setProgress = function (index) {
@@ -142,6 +143,7 @@ const checkKey = function checkKey(e, i) {
 
   if (i >= letterNum) return;
   keysIn++;
+
   if (letters[i].innerHTML.toLowerCase() == e.key) {
     letters[i].classList.add("on");
     keysRight++;
@@ -150,6 +152,7 @@ const checkKey = function checkKey(e, i) {
   }
 };
 const updateSpeed = function updateSpeed() {
+
   let nowWord = isCompleted(keysIn)[1].substr(5), //完整输入单词的个数
     speedBox = document.getElementById("speed"),
     speed = Math.ceil((nowWord / time) * 60);
@@ -176,6 +179,7 @@ const isCompleted = function isCompleted(i) {
   if (word.lastChild === letter) {
     clearInterval(wordTimer);
     loadSpeed(wordTime/debugTime, word);
+ 
     wordTime = 0; //再次初始化
   }
   let flag = lettersArr.every((letter) => {
@@ -193,7 +197,7 @@ const setTime = function setWordTime() {
   }, 1000);
 };
 const loadSpeed = function loadWordSpeed(t, parent) {
-  let wordSpeed = Math.ceil(6/ t);
+  let wordSpeed = Math.ceil(1/ t);
   if(wordSpeed=== Infinity){return;}
   let  wordSpeedBox = document.createElement("div");
   wordSpeedBox.setAttribute("class", "speed-box");
