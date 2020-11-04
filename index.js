@@ -1,14 +1,18 @@
 let time = 0,
+  wordTime = 0,
   keysIn = 0,
   keysRight = 0,
   index = 0,
-  timer;
+  timer,
+  debugTime=0,
+  wordTimer,
+  updateTimer;
 const start = function start(e) {
   type();
   //使start提示消失,初始化开始和暂停按钮
   e.style.display = "none";
   let btn = document.getElementById("update");
-  btn.style.display='inline-block';
+  btn.style.display = "inline-block";
   btn.innerHTML = "❚ ❚";
   btn.setAttribute("isPlay", true);
   timer = setInterval(getForward, 1000);
@@ -53,6 +57,7 @@ const updateBtn = function updateBtn() {
     flag = "false";
     icon = "►";
     clearInterval(timer);
+    
   } else {
     flag = "true";
     icon = "❚ ❚";
@@ -120,25 +125,23 @@ const type = function type() {
     }
     i = index;
     index++;
+    debugTime+=i;//因为后面的单个单词的计时器会重复调用，用以抵消其影响
     setProgress(index);
     checkKey(e, i);
+    loadCheer(index);
     updateAccuracy(index);
   };
 };
-const setProgress=function(index){
-  console.log(index);
-  let rate=Math.ceil(index/letterNum*100),
-  processBar=document.getElementsByClassName('process-filled')[0];
-  processBar.style.flexBasis=`${rate}%`;
-
-}
+const setProgress = function (index) {
+  let rate = Math.ceil((index / letterNum) * 100),
+    processBar = document.getElementsByClassName("process-filled")[0];
+  processBar.style.flexBasis = `${rate}%`;
+};
 const checkKey = function checkKey(e, i) {
   letters = document.getElementsByClassName("letter");
 
   if (i >= letterNum) return;
   keysIn++;
-
-  updateTimer = setInterval(updateSpeed, 100);
   if (letters[i].innerHTML.toLowerCase() == e.key) {
     letters[i].classList.add("on");
     keysRight++;
@@ -159,13 +162,22 @@ const updateSpeed = function updateSpeed() {
   let speedString = `<div class='title'>Speed</div><div class='data'>${speed}<span class='wpm'>WPM</span></div>`;
   speedBox.innerHTML = speedString;
 };
-const isCompleted = function (i) {
+const isCompleted = function isCompleted(i) {
   let letter = document.getElementsByClassName("letter")[i - 1],
     word = letter.parentNode,
     letters = word.childNodes,
     lettersArr = Array.from(letters),
     wordId = word.getAttribute("id");
-
+   
+  //更新每个单词的输入速度
+  if (word.firstChild === letter) {
+    setTime();
+  }
+  if (word.lastChild === letter) {
+    clearInterval(wordTimer);
+    loadSpeed(wordTime/debugTime, word);
+    wordTime = 0; //再次初始化
+  }
   let flag = lettersArr.every((letter) => {
     let flag =
       letter.classList.contains("off") || letter.classList.contains("on");
@@ -174,6 +186,38 @@ const isCompleted = function (i) {
 
   return [flag, wordId];
 };
+//在每一次换单词的时候调用，必须要先拿到正在输入的单词，在最后一个输入完毕时显示速度信息，和祝贺信息
+const setTime = function setWordTime() {
+  wordTimer = setInterval(() => {
+    wordTime++;
+  }, 1000);
+};
+const loadSpeed = function loadWordSpeed(t, parent) {
+  let wordSpeed = Math.ceil(6/ t);
+  if(wordSpeed=== Infinity){return;}
+  let  wordSpeedBox = document.createElement("div");
+  wordSpeedBox.setAttribute("class", "speed-box");
+  let speedString = `${wordSpeed}<span>wpm</span>`;
+  wordSpeedBox.innerHTML = speedString;
+  parent.appendChild(wordSpeedBox);
+};
+const loadCheer=function cheerMessages(i){
+  
+  let letter = document.getElementsByClassName("letter")[i - 1],
+  p = letter.parentNode,
+  childs = Array.from(p.childNodes);
+  let flag=childs.every((child) => {
+    let flag =child.classList.contains("on");
+    return flag;
+  });
+  if(flag){
+    let  messageBox = document.createElement("div");
+  messageBox.setAttribute("class", "message-box");
+  messageBox.innerHTML = 'nice!';
+  p.appendChild(messageBox);
+  }
+  
+}
 const updateAccuracy = function updateAccuracy() {
   let accuracy = Math.round((keysRight / keysIn) * 100),
     container = document.getElementById("accuracy");

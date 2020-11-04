@@ -3,15 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <title>typing practice</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/iconfont.css">
   </head>
 
   <body>
     <header>
+      <span class="tips">Please enter lower case letters</span>
       <span class='icon'></span>
       <span class="start" id="start" onclick="start(this)">Start Typing</span>
       <span class="btn" id="update" onclick="updateBtn()"></span>
-      <span class="btn reload" id="reload" onclick="location.reload()"></span>
+      <i class="iconfont icon-refresh " onclick="location.reload()"></i>
     </header>
     <section class="container" id="container">
       <div class="info accuracy" id="accuracy"></div>
