@@ -4,39 +4,38 @@
     <meta charset="utf-8" />
     <title>typing practice</title>
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/iconfont.css">
-    <link rel="stylesheet" href="./css/circle.css"/>
+    <link rel="stylesheet" href="./css/iconfont.css" />
+    <link rel="stylesheet" href="./css/circle.css" />
   </head>
 
   <body>
     <header>
-      <span class="tips">Please enter lower case letters<span class='icon'></span></span>
-      
+      <span class="tips"
+        >Please enter lower case letters<span class="icon"></span
+      ></span>
+
       <span class="start" id="start" onclick="start(this)">Start Typing</span>
       <span class="btn" id="update" onclick="updateBtn()"></span>
-      <i class="iconfont icon-refresh " onclick="location.reload()"></i>
+      <i class="iconfont icon-refresh" onclick="location.reload()"></i>
     </header>
     <section class="container" id="container">
       <div class="info accuracy" id="accuracy"></div>
       <div class="info speed" id="speed"></div>
     </section>
     <section class="progress">
-  
-    
-      <div class="progress-radial accaracy-circle progress-95 setsize">
+      <div class="progress-radial accaracy-circle setsize">
         <div class="overlay setsize">
           <p></p>
         </div>
       </div>
-    <div>stars</div>
-      <div class="progress-radial speed-circle progress-95 setsize">
+      <div class="star-container"></div>
+      <div class="progress-radial speed-circle setsize">
         <div class="overlay setsize">
           <p></p>
         </div>
       </div>
-      
     </section>
-    <script src="./index.js"></script>
+    <script src="./JS/index.js"></script>
     <script src="./JS/circle.js"></script>
   </body>
 </html>

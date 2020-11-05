@@ -4,7 +4,7 @@ let time = 0,
   keysRight = 0,
   index = 0,
   timer,
-  debugTime=0,
+  debugTime = 0,
   wordTimer,
   updateTimer;
 const start = function start(e) {
@@ -57,7 +57,6 @@ const updateBtn = function updateBtn() {
     flag = "false";
     icon = "►";
     clearInterval(timer);
-    
   } else {
     flag = "true";
     icon = "❚ ❚";
@@ -125,12 +124,19 @@ const type = function type() {
     }
     i = index;
     index++;
-    debugTime+=1;//因为后面的单个单词的计时器会重复调用，用以抵消其影响
+    debugTime += 1; //因为后面的单个单词的计时器会重复调用，用以抵消其影响
+
+    if (index >= letterNum - 1) {
+      if (index < letterNum) {
+        setResult();
+      }
+      return;
+    }
     setProgress(index);
     checkKey(e, i);
     loadCheer(index);
     updateAccuracy(index);
-    updateSpeed()
+    updateSpeed();
   };
 };
 const setProgress = function (index) {
@@ -152,7 +158,6 @@ const checkKey = function checkKey(e, i) {
   }
 };
 const updateSpeed = function updateSpeed() {
-
   let nowWord = isCompleted(keysIn)[1].substr(5), //完整输入单词的个数
     speedBox = document.getElementById("speed"),
     speed = Math.ceil((nowWord / time) * 60);
@@ -162,7 +167,7 @@ const updateSpeed = function updateSpeed() {
   if (nowWord > 1) {
     speedBox.style.visibility = "visible";
   }
-  let speedString = `<div class='title'>Speed</div><div class='data'>${speed}<span class='wpm'>WPM</span></div>`;
+  let speedString = `<div class='title'>Speed</div><div class='data'><span>${speed}</span><span class='wpm'>WPM</span></div>`;
   speedBox.innerHTML = speedString;
 };
 const isCompleted = function isCompleted(i) {
@@ -171,15 +176,15 @@ const isCompleted = function isCompleted(i) {
     letters = word.childNodes,
     lettersArr = Array.from(letters),
     wordId = word.getAttribute("id");
-   
+
   //更新每个单词的输入速度
   if (word.firstChild === letter) {
     setTime();
   }
   if (word.lastChild === letter) {
     clearInterval(wordTimer);
-    loadSpeed(wordTime/debugTime, word);
- 
+    loadSpeed(wordTime / debugTime, word);
+
     wordTime = 0; //再次初始化
   }
   let flag = lettersArr.every((letter) => {
@@ -197,35 +202,35 @@ const setTime = function setWordTime() {
   }, 1000);
 };
 const loadSpeed = function loadWordSpeed(t, parent) {
-  let wordSpeed = Math.ceil(1/ t);
-  if(wordSpeed=== Infinity){return;}
-  let  wordSpeedBox = document.createElement("div");
+  let wordSpeed = Math.ceil(1 / t);
+  if (wordSpeed === Infinity) {
+    return;
+  }
+  let wordSpeedBox = document.createElement("div");
   wordSpeedBox.setAttribute("class", "speed-box");
   let speedString = `${wordSpeed}<span>wpm</span>`;
   wordSpeedBox.innerHTML = speedString;
   parent.appendChild(wordSpeedBox);
 };
-const loadCheer=function cheerMessages(i){
-  
+const loadCheer = function cheerMessages(i) {
   let letter = document.getElementsByClassName("letter")[i - 1],
-  p = letter.parentNode,
+    p = letter.parentNode;
   childs = Array.from(p.childNodes);
-  let flag=childs.every((child) => {
-    let flag =child.classList.contains("on");
+  let flag = childs.every((child) => {
+    let flag = child.classList.contains("on");
     return flag;
   });
-  if(flag){
-    let  messageBox = document.createElement("div");
-  messageBox.setAttribute("class", "message-box");
-  messageBox.innerHTML = 'nice!';
-  p.appendChild(messageBox);
+  if (flag) {
+    let messageBox = document.createElement("div");
+    messageBox.setAttribute("class", "message-box");
+    messageBox.innerHTML = "nice!";
+    p.appendChild(messageBox);
   }
-  
-}
+};
 const updateAccuracy = function updateAccuracy() {
   let accuracy = Math.round((keysRight / keysIn) * 100),
     container = document.getElementById("accuracy");
-  accuracyString = `<div class='title'>Accuracy</div><div class='data'>${accuracy}%</div>`;
+  accuracyString = `<div class='title'>Accuracy</div><div class='data'><span>${accuracy}</span><span>%</span></div>`;
   container.innerHTML = accuracyString;
   if (keysIn > 5) {
     container.style.visibility = "visible";
