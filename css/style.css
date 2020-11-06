@@ -7,17 +7,17 @@ body {
 }
 header {
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 50px;
   padding: 0 20px;
   border-bottom: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-align-items: center;
 }
 .tips {
- 
   font-size: 0.4em;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   color: rgba(160, 191, 124);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
@@ -87,8 +87,8 @@ align-items: center;
   font-size: 0.5em;
   font-weight: 300;
 }
-header > span, i{
-
+header > span,
+i {
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
@@ -100,13 +100,14 @@ header > span, i{
   height: 40px;
   transition: color 0.2s;
 }
-#update:hover{
-    color: rgba(89, 148, 76, 0.95);
+#update:hover {
+  color: rgba(89, 148, 76, 0.95);
 }
 .data {
   font-family: "Droid Sans Mono", courier;
 }
-.wpm ,.speed-box>span{
+.wpm,
+.speed-box > span {
   font-family: "Droid Sans Mono", courier;
   font-size: 0.3em;
   vertical-align: super;
@@ -118,26 +119,26 @@ header > span, i{
   content: url(./img/reload.svg);
   vertical-align: middle;
 }
-#reload:hover{
-    content: '';
+#reload:hover {
+  content: "";
 }
-.word{
-    position: relative;
+.word {
+  position: relative;
 }
-.speed-box{
-    position: absolute;
-    left: 0;
-    transform: translateY(-60px);
-    font-size: 0.3em;
+.speed-box {
+  position: absolute;
+  left: 0;
+  transform: translateY(-60px);
+  font-size: 0.3em;
 }
-.message-box{
-    position: absolute;
-    right: 0;
-    transform: translateX(-100%);
-    font-size: 0.3em;
-    color: seagreen;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+.message-box {
+  position: absolute;
+  right: 0;
+  transform: translateX(-100%);
+  font-size: 0.3em;
+  color: seagreen;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
-.progress{
- visibility: hidden;
+.progress {
+  visibility: hidden;
 }

@@ -4,7 +4,6 @@ let time = 0,
   keysRight = 0,
   index = 0,
   timer,
-  debugTime = 0,
   wordTimer,
   updateTimer;
 const start = function start(e) {
@@ -124,7 +123,6 @@ const type = function type() {
     }
     i = index;
     index++;
-    debugTime += 1; //因为后面的单个单词的计时器会重复调用，用以抵消其影响
 
     if (index >= letterNum - 1) {
       if (index < letterNum) {
@@ -183,7 +181,7 @@ const isCompleted = function isCompleted(i) {
   }
   if (word.lastChild === letter) {
     clearInterval(wordTimer);
-    loadSpeed(wordTime / debugTime, word);
+    loadSpeed(wordTime, word);
 
     wordTime = 0; //再次初始化
   }
@@ -195,14 +193,15 @@ const isCompleted = function isCompleted(i) {
 
   return [flag, wordId];
 };
-//在每一次换单词的时候调用，必须要先拿到正在输入的单词，在最后一个输入完毕时显示速度信息，和祝贺信息
+
 const setTime = function setWordTime() {
+  clearInterval(wordTimer);
   wordTimer = setInterval(() => {
-    wordTime++;
-  }, 1000);
+    wordTime += 0.1;
+  }, 100);
 };
 const loadSpeed = function loadWordSpeed(t, parent) {
-  let wordSpeed = Math.ceil(1 / t);
+  let wordSpeed = Math.ceil(60 / t);
   if (wordSpeed === Infinity) {
     return;
   }

@@ -1,12 +1,11 @@
 window.onload = function () {
-  let obj = document.getElementsByClassName("setsize");
-
-  Array.from(obj).forEach((item) => {
-    item.style.height = window.getComputedStyle(item).width;
-  });
+  setSize("setsize");
 };
 window.onresize = function () {
-  let obj = document.getElementsByClassName("setsize");
+  setSize("setsize");
+};
+const setSize = function setSize(className) {
+  let obj = document.getElementsByClassName(className);
   Array.from(obj).forEach((item) => {
     item.style.height = window.getComputedStyle(item).width;
   });
@@ -25,39 +24,55 @@ const setResult = function setResult() {
     accaracyCircle = document.getElementsByClassName("accaracy-circle")[0],
     speedCircle = document.getElementsByClassName("speed-circle")[0],
     accaracyBox = accaracyCircle.getElementsByTagName("p")[0],
-    speedBox = speedCircle.getElementsByTagName("p")[0];
+    speedBox = speedCircle.getElementsByTagName("p")[0],
+    accaracy = getData("accuracy"),
+    speed = getData("speed");
 
   //加入数据
-  accaracyBox.innerHTML = getData("accuracy") + "%";
-  speedBox.innerHTML = getData("speed") + "wpm";
+  accaracyBox.innerHTML = accaracy + "%";
+  speedBox.innerHTML = speed + "wpm";
 
   //设置角度
-  setAngle(accaracyCircle, getData("accuracy"));
-  setAngle(speedCircle, getData("speed"));
+  setAngle(accaracyCircle, accaracy);
+  setAngle(speedCircle, speed);
   //设置星级
-  setRank(getData("speed"), getData("accuracy"));
+  setRank(speed, accaracy);
   //显示页面
   wordPage.style.display = "none";
   Resultage.style.visibility = "visible";
 };
-const setAngle = function setAngle(item, index) {
-  let deg = 3.6;
+const setAngle = function setAngle(item, index) { 
+  item.index = index>=50?50:0;
+  item.timer = setInterval(() => {
+    item.index++;
+    if (item.index >= index) {
+      clearInterval(item.timer);
+    }
+    item.style.backgroundImage = getAngle(item, index);
+  }, 30);
+};
+const getAngle = function getAngle(item, index) {
+  let func = "";
   if (index > 100) {
     index = 100;
   }
-  item.style.backgroundImage =
+  func =
     index <= 50
       ? `linear-gradient(
-    90deg,
-    #f0f0f0 50%,
-    rgba(0, 0, 0, 0) 50%,
-    rgba(0, 0, 0, 0)
-  ),
-  linear-gradient(${deg * index + 90}deg, #38b16b 50%, #f0f0f0 50%, #f0f0f0)`
-      : `linear-gradient(-90deg, rgb(56, 177, 107) 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(${
-          deg * index - 270
-        }deg, rgb(56, 177, 107) 50%, rgb(240, 240, 240) 50%, rgb(240, 240, 240))`;
+        90deg,
+        #f0f0f0 50%,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 0, 0, 0)
+      ),
+      linear-gradient(${
+        3.6 * item.index + 90
+      }deg, #38b16b 50%, #f0f0f0 50%, #f0f0f0)`
+      : `linear-gradient(90deg,rgba(0, 0, 0, 0) 50%, rgb(56, 177, 107) 50%,rgb(56, 177, 107) 50%), linear-gradient(${
+          3.6 * (item.index-50) +90
+        }deg, rgb(240, 240, 240) 50% ,rgb(56, 177, 107) 50%, rgb(56, 177, 107))`;
+  return func;
 };
+
 const setRank = function setRank(speed, accaracy) {
   let starsBox = [],
     speedBox = [],
@@ -65,19 +80,19 @@ const setRank = function setRank(speed, accaracy) {
     stars,
     speedIndex = 0,
     accaracyIndex = 0;
+  //初始化标准
   for (let i = 0; i < 5; i++) {
     starsBox[i] = 0.5 * (i + 1);
     speedBox[i] = 12 * (i + 1);
     accaracyBox[i] = 18 * (i + 1);
   }
+  //检查符合哪档标准
   for (let j = 0; j < 5; j++) {
-    if (speed > speedBox[j]) {
-      if (j + 1 < 5) {
+    if (j + 1 < 5) {
+      if (speed > speedBox[j]) {
         speedIndex = j + 1;
       }
-    }
-    if (accaracy > accaracyBox[j]) {
-      if (j + 1 < 5) {
+      if (accaracy > accaracyBox[j]) {
         accaracyIndex = j + 1;
       }
     }
