@@ -151,8 +151,11 @@ const checkKey = function checkKey(e, i) {
   if (letters[i].innerHTML.toLowerCase() == e.key) {
     letters[i].classList.add("on");
     keysRight++;
+    playAudio(0);
   } else {
     letters[i].classList.add("off");
+    playAudio(1);
+
   }
 };
 const updateSpeed = function updateSpeed() {
@@ -234,4 +237,13 @@ const updateAccuracy = function updateAccuracy() {
   if (keysIn > 5) {
     container.style.visibility = "visible";
   }
+};
+const playAudio = function playAudio(index) {
+  let audio = document.getElementsByTagName("audio")[index];
+  let duration = 0.5;
+  audio.play();
+  setTimeout(() => {
+    audio.pause();
+  }, duration * 1000);
+  audio.currentTime = 0;
 };

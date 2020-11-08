@@ -41,8 +41,8 @@ const setResult = function setResult() {
   wordPage.style.display = "none";
   Resultage.style.visibility = "visible";
 };
-const setAngle = function setAngle(item, index) { 
-  item.index = index>=50?50:0;
+const setAngle = function setAngle(item, index) {
+  item.index = index >= 50 ? 50 : 0;
   item.timer = setInterval(() => {
     item.index++;
     if (item.index >= index) {
@@ -68,7 +68,7 @@ const getAngle = function getAngle(item, index) {
         3.6 * item.index + 90
       }deg, #38b16b 50%, #f0f0f0 50%, #f0f0f0)`
       : `linear-gradient(90deg,rgba(0, 0, 0, 0) 50%, rgb(56, 177, 107) 50%,rgb(56, 177, 107) 50%), linear-gradient(${
-          3.6 * (item.index-50) +90
+          3.6 * (item.index - 50) + 90
         }deg, rgb(240, 240, 240) 50% ,rgb(56, 177, 107) 50%, rgb(56, 177, 107))`;
   return func;
 };
@@ -77,10 +77,12 @@ const setRank = function setRank(speed, accaracy) {
   let starsBox = [],
     speedBox = [],
     accaracyBox = [],
-    stars,
+    score,
     speedIndex = 0,
     accaracyIndex = 0;
-  //初始化标准
+  let container = document.getElementsByClassName("star-container")[0],
+    stars = container.getElementsByTagName("li");
+  //初始化标准和星星
   for (let i = 0; i < 5; i++) {
     starsBox[i] = 0.5 * (i + 1);
     speedBox[i] = 12 * (i + 1);
@@ -97,7 +99,13 @@ const setRank = function setRank(speed, accaracy) {
       }
     }
   }
-  stars = starsBox[speedIndex] + starsBox[accaracyIndex];
-  let container = document.getElementsByClassName("star-container")[0];
-  container.innerHTML = stars;
+  score = Math.ceil(starsBox[speedIndex] + starsBox[accaracyIndex]);
+  for (let index = 0; index < score; index++) {
+    setTimeout(() => {
+      stars[index].classList.add('active');
+    }, 200);
+    
+  }
+  // container.innerHTML = stars;
 };
+
