@@ -242,8 +242,8 @@ const playAudio = function playAudio(index) {
   let audio = document.getElementsByTagName("audio")[index];
   let duration = 0.5;
   audio.play();
-  setTimeout(() => {
-    audio.pause();
-  }, duration * 1000);
+  // setTimeout(() => {
+  //   audio.pause();
+  // }, duration * 1000);
   audio.currentTime = 0;
 };

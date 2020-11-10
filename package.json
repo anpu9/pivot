@@ -1,0 +1,23 @@
+{
+  "name": "pivot",
+  "version": "1.0.0",
+  "description": "## day 1",
+  "main": "index.js",
+  "dependencies": {
+    "jquery": "^3.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anpu9/pivot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anpu9/pivot/issues"
+  },
+  "homepage": "https://github.com/anpu9/pivot#readme"
+}
